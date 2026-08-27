@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Naufal Firzat</title>
+    
+    <!-- Mengambil font estetik dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ---- PALET WARNA (Kertas, Tulang, Abu Monyet, Hitam) ---- */
+        
+        /* Mode Terang (Default) */
+        :root {
+            --bg-color: #FFFFFF;       
+            --text-color: #5A5A5A;     
+            --heading-color: #111111;  
+            --accent-color: #222222;   
+            --section-bg: #F8F6F0;     
+            --card-bg: #FFFFFF;        
+            --border-color: #5A5A5A;   
+        }
+
+        /* Mode Gelap */
+        body.dark-mode {
+            --bg-color: #111111;       
+            --text-color: #CCCCCC;     
+            --heading-color: #F8F6F0;  
+            --accent-color: #FFFFFF;   
+            --section-bg: #1A1A1A;     
+            --card-bg: #111111;        
+            --border-color: #5A5A5A;   
+        }
+
+        /* Gaya Dasar & Transisi Halus */
+        body { 
+            font-family: 'Lora', serif; 
+            margin: 0; padding: 0; line-height: 1.7; scroll-behavior: smooth; 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--heading-color); 
+            font-weight: 600;
+            transition: color 0.5s ease;
+        }
+        
+        /* ---- GAYA HEADER & NAVIGASI ---- */
+        header { 
+            padding: 1rem 0; 
+            position: sticky; top: 0; z-index: 100; 
+            background-color: var(--bg-color); 
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+        
+        /* Otomatis membalik warna logo (hitam jadi putih) saat mode gelap */
+        .header-logo, .hero-logo-container img {
+            transition: filter 0.5s ease;
+        }
+        body.dark-mode .header-logo, 
+        body.dark-mode .hero-logo-container img {
+            filter: invert(1); 
+        }
+
+        .header-logo {
+            height: 40px; 
+            width: auto;
+            display: block;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+        header nav a { 
+            color: var(--text-color); 
+            text-decoration: none; 
+            margin-left: 25px; 
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s; 
+        }
+        header nav a:hover { color: var(--heading-color); }
+        
+        /* Tombol Toggle Mode Gelap/Terang */
+        .theme-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--heading-color);
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Lora', serif;
+            font-size: 0.9rem;
+            margin-left: 30px;
+            transition: all 0.4s ease;
+        }
+        .theme-btn:hover {
+            background: var(--heading-color);
+            color: var(--bg-color);
+            border-color: var(--heading-color);
+        }
+
+        /* ---- GAYA MENU HP (HAMBURGER ICON) ---- */
+        .menu-toggle {
+            display: none; 
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 101;
+        }
+        .menu-toggle span {
+            width: 100%; height: 2px;
+            background-color: var(--heading-color);
+            transition: all 0.3s ease;
+        }
+
+        /* RESPONSIVE UNTUK HP (Layar di bawah 768px) */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            
+            /* Animasi tombol X */
+            .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            /* Navigasi dropdown ke bawah */
+            header nav {
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background-color: var(--bg-color);
+                border-bottom: 1px solid var(--border-color);
+                flex-direction: column; align-items: center; padding: 0;
+                max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease;
+            }
+            
+            header nav.active { max-height: 400px; padding: 20px 0; opacity: 1; }
+            header nav a { margin: 12px 0; font-size: 1.1rem; }
+            .theme-btn { margin: 15px 0 10px 0; }
+        }
+
+        /* Tata Letak Bagian */
+        section { padding: 6rem 2rem; max-width: 800px; margin: auto; text-align: center; overflow: hidden;}
+        .bg-light { background: var(--section-bg); transition: background-color 0.5s ease;}
+        
+        /* Tombol Elegan (Outline) */
+        .btn { 
+            display: inline-block; padding: 12px 32px; 
+            background: transparent; 
+            color: var(--heading-color); 
+            text-decoration: none; 
+            border: 1px solid var(--border-color);
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            margin-top: 30px; 
+            transition: all 0.4s ease; 
+        }
+        .btn:hover { 
+            background: var(--heading-color); 
+            color: var(--bg-color); 
+            border-color: var(--heading-color);
+        }
+
+        /* ---- GAYA SCROLL HORIZONTAL ---- */
+        .scroll-container { 
+            display: flex; gap: 30px; margin-top: 50px; overflow-x: auto; padding-bottom: 20px; 
+            -webkit-overflow-scrolling: touch; cursor: grab; 
+        }
+        .scroll-container:active { cursor: grabbing; }
+        .scroll-container::-webkit-scrollbar { height: 4px; }
+        .scroll-container::-webkit-scrollbar-track { background: transparent; }
+        .scroll-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        /* ---- GAYA KARTU ---- */
+        .card { 
+            background: var(--card-bg); text-align: left; border: 1px solid var(--border-color);
+            transition: transform 0.4s ease, background-color 0.5s ease, border-color 0.5s ease; 
+            display: flex; flex-direction: column;
+            flex: 0 0 calc(50% - 15px); min-width: 280px; user-select: none; overflow: hidden; 
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card-img { 
+            width: 100%; height: 220px; object-fit: cover; background-color: var(--section-bg); border-bottom: 1px solid var(--border-color); -webkit-user-drag: none; transition: border-color 0.5s ease; 
+            filter: grayscale(100%); /* Membuat foto kartu jadi hitam putih */
+            transition: filter 0.5s ease, border-color 0.5s ease;
+        }
+        .card:hover .card-img { 
+            filter: grayscale(0%); /* Foto kembali berwarna saat kursor menyentuh kartu */
+        }
+        .card-content { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.4rem;}
+        .card p { flex-grow: 1; margin-bottom: 25px;} 
+        .project-link { 
+            display: inline-block; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1rem; 
+            font-style: italic; 
+            color: #007BFF; /* Ubah warnanya di sini */
+            text-decoration: none; 
+            transition: opacity 0.3s ease; 
+            border-bottom: 1px solid transparent; 
+        }
+        .project-link:hover { 
+            opacity: 0.6; 
+            border-bottom: 1px solid #007BFF; /* Ubah juga warna garis bawahnya saat disentuh */
+        }
+
+        /* Footer */
+        footer { background: var(--bg-color); color: var(--text-color); text-align: center; padding: 5rem 0; border-top: 1px solid var(--border-color); transition: background-color 0.5s ease, border-color 0.5s ease;}
+        footer a { color: var(--heading-color); text-decoration: none; border-bottom: 1px solid var(--heading-color); transition: opacity 0.3s ease;}
+        footer a:hover { opacity: 0.6; }
+
+        /* Kelas Animasi */
+        .fade-in { opacity: 0; transform: translateY(25px); transition: opacity 1s ease-out, transform 1s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Aksen Garis */
+        .divider { width: 40px; height: 1px; background-color: var(--border-color); margin: 25px auto; transition: background-color 0.5s ease; }
+
+        /* Logo Beranda */
+        .hero-logo-container { max-width: 160px; margin: 0 auto 30px auto; }
+        .hero-logo-container img { width: 100%; height: auto; object-fit: contain; }
+
+        /* Foto Profil Tentang Saya (Tanpa efek Hitam Putih) */
+        .profile-img-container {
+            width: 140px; height: 140px; margin: 0 auto 30px auto; 
+            border-radius: 50%; overflow: hidden;     
+            border: 1px solid var(--border-color);
+            padding: 8px; background-color: transparent; 
+            transition: border-color 0.5s ease;
+        }
+        .profile-img-container img {
+            width: 100%; height: 100%; object-fit: cover;    
+            border-radius: 50%; background-color: var(--section-bg); 
+            /* HAPUS FILTER GRAYSCALE AGAR TETAP BERWARNA */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="#beranda">
+                <img src="LogoNFR.png" alt="Logo Naufal Firzat" class="header-logo">
+            </a>
+            
+            <!-- KODE BARU: Ikon Hamburger Menu untuk HP -->
+            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- KODE BARU: Menambahkan id="nav-menu" -->
+            <nav id="nav-menu">
+                <a href="#beranda">Beranda</a>
+                <a href="#tentang">Tentang</a>
+                <a href="#karya">Karya</a>
+                <a href="#bisnis">Bisnis</a>
+                <a href="#kontak">Kontak</a>
+                <button id="theme-toggle" class="theme-btn">🌙 Gelap</button>
+            </nav>
+        </div>
+    </header>
+
+    <section id="beranda" class="fade-in">
+        <div class="hero-logo-container">
+            <img src="LogoNFR.png" alt="Logo Utama Naufal Firzat">
+        </div>
+
+        <h1 style="font-size: 3rem; margin-bottom: 10px; letter-spacing: -1px;">Naufal Firzat</h1>
+        <div class="divider"></div>
+        <p style="font-size: 1.25rem; font-style: italic; color: var(--text-color);">Seorang Mantan Pemain Poker Profesional yang beralih menjadi pekerja kreatif dan pemilik usaha kecil yang masih merintis.</p>
+        <a href="#kontak" class="btn">Mari Berdiskusi</a>
+    </section>
+
+    <section id="tentang" class="bg-light fade-in">
+        <h2>Tentang Saya</h2>
+        <div class="divider"></div>
+        
+        <div class="profile-img-container">
+            <img src="PhotoProfile.png" alt="Foto Profil Naufal Firzat">
+        </div>
+
+        <p>Saya memiliki pandangan optimis terhadap teknologi dan ketertarikan dengan kewirausahaan, meskipun bakat alami di bidang seni, oleh karena itu memilih terjun di dunia desain terutama desain web adalah pilihan tepat. Menggabungkan pandangan, minat, dan bakat saya menjadi satu untuk menghasilkan barang dan jasa yang bisa tawarkan.</p>
+    </section>
+
+    <section id="karya">
+        <h2 class="fade-in">Karya & Pencapaian</h2>
+        <div class="divider fade-in"></div>
+        
+        <div class="scroll-container">
+            <div class="card fade-in">
+                <img src="Telkomcertificate.png" alt="Pencapaian Pertama" class="card-img">
+                <div class="card-content">
+                    <h3>Pencapaian Pertama</h3>
+                    <p>Lulus pelatihan UI&UX Designer yang di gelar oleh Telkom untuk melanjutkan karir sebagai UI&UX Designer</p>
+                    <!-- <a href="https://link-anda.com" target="_blank" class="project-link">Lihat Detail &rarr;</a> -->
+                </div>
+            </div>
+            
+            <div class="card fade-in">
+                <img src="SertifikatIDN.jpg" alt="Pencapaian Kedua" class="card-img">
+                <div class="card-content">
+                    <h3>Pencapaian Kedua</h3>
+                    <p>Lulus pelatihan Design yang digelar oleh mahasiswa IDN</p>
+                    <!-- <a href="https://link-anda.com" target="_blank" class="project-link">Lihat Detail &rarr;</a> -->
+                </div>
+            </div>
+            
+            <div class="card fade-in">
+                <img src="Kominfo.png" alt="Pencapaian Ketiga" class="card-img">
+                <div class="card-content">
+                    <h3>Pencapaian Ketiga</h3>
+                    <p>Dokumentasi kelulusan magang di Kominfo sebagai web designer</p>
+                <!-- <a href="https://link-anda.com" target="_blank" class="project-link">Lihat Detail &rarr;</a> -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. BISNIS SAYA (DIPINDAHKAN KE SINI - Background: Putih Tulang) -->
+    <section id="bisnis" class="bg-light">
+        <h2 class="fade-in">Bisnis Saya</h2>
+        <div class="divider fade-in"></div>
+        
+        <div class="scroll-container">
+            <!-- Kartu Bisnis 1 -->
+            <div class="card fade-in">
+                <img src="NFCgooglereview.png" alt="Bisnis Pertama" class="card-img">
+                <div class="card-content">
+                    <h3>Bisnis Pertama</h3>
+                    <p>Kartu Penilaian Google alat yang bisa discan dengan NFC dan Barcode untuk proses review google secara cepat dan efisien, mempermudah konsumen untuk meriview toko anda</p>
+                    <a href="https://wa.link/yrsm32" target="_blank" class="project-link">Hubungi &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Kartu Bisnis 2 -->
+            <div class="card fade-in">
+                <img src="BusinessCard.png" alt="Bisnis Kedua" class="card-img">
+                <div class="card-content">
+                    <h3>Bisnis Kedua</h3>
+                    <p>Kartu Nama Pintar dengan fitur NFC yang bisa anda bawa kemana-mana, dan bisa anda desain sesuka hati untuk membangun relasi dan koneksi cepat.</p>
+                    <a href="https://wa.link/x35f8g" target="_blank" class="project-link">Hubungi &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Kartu Bisnis 3 -->
+            <div class="card fade-in">
+                <img src="Porto.png" alt="Bisnis Ketiga" class="card-img">
+                <div class="card-content">
+                    <h3>Bisnis Ketiga</h3>
+                    <p>Jasa pembuatan Portofolio pribadi dengan memilih desain yang anda suka, anda dapat memiliki portofolio pribadi</p>
+                    <a href="https://wa.link/k9lnb6" target="_blank" class="project-link" color="blue">Hubungi &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Kartu Bisnis 4 -->
+            <div class="card fade-in">
+                <img src="undangan.jpeg" alt="Bisnis Keempat" class="card-img">
+                <div class="card-content">
+                    <h3>Bisnis Keempat</h3>
+                    <p>Mau kah anda bergabung untuk membangun bisnis selanjutnya bersama saya? </p>
+                    <a href="https://wa.link/yvz200" target="_blank" class="project-link" color="blue">Hubungi &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="kontak" class="fade-in">
+        <h2>Mari Berdiskusi</h2>
+        <div class="divider"></div>
+        <p>Saya selalu terbuka untuk percakapan baru dan peluang kolaborasi.</p>
+        <p style="margin: 2.5rem 0;"><a href="mailto:naufalfirzat@gmail.com" style="font-size: 1.3rem; font-style: italic;">naufalfirzat@gmail.com</a></p>
+        <p style="margin-bottom: 1rem; font-size: 1.1rem;">Kontak Pribadi <br> <a href="https://wa.link/5i3b4g">0896 1158 9745</a></p>
+        <p style="margin-bottom: 1rem; font-size: 1.1rem;">Kontak Bisnis <br> <a href="https://wa.link/g9qaei">0831 7787 7141</a></p>
+        <p style="margin-top: 4rem; font-size: 0.85rem; color: var(--text-color); opacity: 0.7;">&copy; 2026 Naufal Firzat. Dirancang dengan kesederhanaan.</p>
+    </footer>
+
+    <!-- Skrip Interaktif -->
+    <script>
+        // --- LOGIKA MENU HP (HAMBURGER) ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active'); 
+            navMenu.classList.toggle('active');       
+        });
+
+        // Menutup menu otomatis jika menu diklik
+        const navLinks = document.querySelectorAll('#nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Logika Mode Gelap & Terang
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️ Terang';
+            } else {
+                themeToggle.textContent = '🌙 Gelap';
+            }
+        });
+
+        // Animasi Muncul Saat Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach((el) => { observer.observe(el); });
+
+        // Fitur Drag untuk Kartu (Berlaku untuk SEMUA scroll-container: Bisnis & Karya)
+        const sliders = document.querySelectorAll('.scroll-container');
+        
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => { isDown = false; });
+            slider.addEventListener('mouseup', () => { isDown = false; });
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 1.5; 
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+</body>
+</html>
